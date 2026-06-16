@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kintsugi* · язык как зеркало · неделя 3</title>
+    <style>
+        :root {
+            --bg-vanilla: #f1eada;
+            --text-mahogany: #584738;
+            --accent-gold: #c9a96e;
+            --border-soft: rgba(88, 71, 56, 0.15);
+            --bg-card: rgba(88, 71, 56, 0.03);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; text-transform: lowercase; }
+        body { background-color: var(--bg-vanilla); color: var(--text-mahogany); line-height: 1.8; padding: 40px 24px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .poster-container { width: 100%; max-width: 760px; background-color: var(--bg-vanilla); border: 1px solid var(--border-soft); padding: 60px 48px; display: flex; flex-direction: column; gap: 50px; box-shadow: 0 12px 40px rgba(88,71,56,0.05); border-radius: 4px; }
+        @media (max-width: 600px) { body { padding: 16px 8px; } .poster-container { padding: 40px 20px; gap: 40px; } }
+        header { border-bottom: 1px solid var(--border-soft); padding-bottom: 30px; text-align: center; }
+        .brand-meta { font-size: 0.85rem; letter-spacing: 0.2em; opacity: 0.7; margin-bottom: 12px; }
+        h1 { font-size: 2.2rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1.2; color: var(--text-mahogany); margin-bottom: 8px; }
+        .subtitle { font-size: 1.1rem; letter-spacing: 0.05em; opacity: 0.8; }
+        .manifesto-box { text-align: center; max-width: 600px; margin: 0 auto; }
+        .manifesto-lead { font-size: 1.25rem; font-weight: 400; line-height: 1.6; margin-bottom: 12px; }
+        .manifesto-sub { font-size: 0.95rem; opacity: 0.65; line-height: 1.7; }
+        .reaction-flow { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: 6px; padding: 30px; }
+        .flow-title { font-size: 0.9rem; letter-spacing: 0.1em; opacity: 0.8; margin-bottom: 24px; text-align: center; border-bottom: 1px solid var(--border-soft); padding-bottom: 10px; }
+        .flow-grid { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 16px; text-align: center; }
+        @media (max-width: 600px) { .flow-grid { grid-template-columns: 1fr; gap: 24px; } .flow-arrow { transform: rotate(90deg); margin: 8px 0; } }
+        .flow-card { padding: 16px; border-radius: 4px; background: rgba(255,255,255,0.4); border: 1px solid rgba(88,71,56,0.05); }
+        .flow-step { font-size: 0.75rem; letter-spacing: 0.1em; opacity: 0.5; margin-bottom: 8px; }
+        .flow-name { font-size: 1rem; font-weight: 500; margin-bottom: 6px; }
+        .flow-desc { font-size: 0.85rem; opacity: 0.7; line-height: 1.4; }
+        .flow-arrow { font-size: 1.5rem; color: var(--accent-gold); opacity: 0.8; user-select: none; }
+        .markers-section { display: flex; flex-direction: column; gap: 24px; }
+        .section-label { font-size: 0.9rem; letter-spacing: 0.15em; opacity: 0.8; border-bottom: 1px solid var(--border-soft); padding-bottom: 12px; margin-bottom: 8px; }
+        .marker-row { display: grid; grid-template-columns: 160px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px dashed var(--border-soft); }
+        @media (max-width: 600px) { .marker-row { grid-template-columns: 1fr; gap: 12px; padding: 16px 0; } }
+        .marker-title-box { display: flex; flex-direction: column; gap: 4px; }
+        .marker-title { font-size: 1.2rem; font-weight: 500; letter-spacing: 0.05em; }
+        .marker-meta { font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 0.1em; }
+        .marker-examples { font-size: 0.9rem; font-style: italic; opacity: 0.6; margin-bottom: 8px; }
+        .marker-desc { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
+        .price-box { background: rgba(199,169,110,0.08); border-left: 2px solid var(--accent-gold); padding: 24px 30px; border-radius: 0 6px 6px 0; }
+        .price-title { font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 12px; font-weight: 500; }
+        .price-list { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; opacity: 0.85; }
+        .price-list li { position: relative; padding-left: 16px; }
+        .price-list li::before { content: "·"; position: absolute; left: 0; color: var(--accent-gold); font-weight: bold; }
+        .questions-box { display: flex; flex-direction: column; gap: 20px; }
+        .question-item { display: flex; gap: 20px; align-items: flex-start; }
+        .question-num { font-size: 0.9rem; font-weight: 500; color: var(--accent-gold); letter-spacing: 0.1em; padding-top: 3px; }
+        .question-text { font-size: 1rem; opacity: 0.9; }
+        .practice-container { border: 1px solid var(--border-soft); border-radius: 6px; padding: 30px; text-align: center; background: var(--bg-card); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .practice-title { font-size: 1.1rem; letter-spacing: 0.1em; font-weight: 400; }
+        .practice-focus { font-size: 0.85rem; opacity: 0.6; letter-spacing: 0.05em; }
+        .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+        .btn-primary { display: inline-flex; align-items: center; padding: 13px 30px; background: var(--text-mahogany); color: var(--bg-vanilla); border-radius: 40px; font-size: 0.9rem; letter-spacing: 0.05em; text-decoration: none; transition: background 0.2s ease; }
+        .btn-primary:hover { background: var(--accent-gold); }
+        .btn-outline { display: inline-flex; align-items: center; padding: 13px 30px; background: transparent; color: var(--text-mahogany); border: 1px solid var(--text-mahogany); border-radius: 40px; font-size: 0.9rem; letter-spacing: 0.05em; text-decoration: none; transition: all 0.2s ease; }
+        .btn-outline:hover { background: var(--text-mahogany); color: var(--bg-vanilla); }
+        footer { border-top: 1px solid var(--border-soft); padding-top: 35px; text-align: center; display: flex; flex-direction: column; gap: 12px; }
+        .footer-quote { font-size: 1.15rem; letter-spacing: 0.05em; font-weight: 300; }
+        .footer-meta { font-size: 0.8rem; letter-spacing: 0.15em; opacity: 0.5; }
+    </style>
+</head>
+<body>
+    <div class="poster-container">
+
+        <header>
+            <div class="brand-meta">виктория голдберг · kintsugi* · неделя 3</div>
+            <h1>язык как зеркало</h1>
+            <div class="subtitle">фразы-маркеры · как слово организует переживание</div>
+        </header>
+
+        <section class="manifesto-box">
+            <p class="manifesto-lead">язык — это первый фильтр через который проходит любое переживание.</p>
+            <p class="manifesto-sub">ещё до того как мы начинаем «работать с эмоцией» — мы уже её назвали. и это название решает многое: заметим ли мы её вообще, насколько точно почувствуем, как быстро от неё уйдём.</p>
+        </section>
+
+        <section class="reaction-flow">
+            <div class="flow-title">как язык организует опыт</div>
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <div class="flow-step">шаг 01</div>
+                    <div class="flow-name">переживание</div>
+                    <div class="flow-desc">что-то происходит в теле до того как появляется слово</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-card">
+                    <div class="flow-step">шаг 02</div>
+                    <div class="flow-name">фраза-маркер</div>
+                    <div class="flow-desc">привычное слово фильтрует опыт — уменьшает, стирает или отрицает</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-card">
+                    <div class="flow-step">шаг 03</div>
+                    <div class="flow-name">расстояние</div>
+                    <div class="flow-desc">между тем что произнесено и тем что реально происходит внутри</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="markers-section">
+            <div class="section-label">три группы фраз-маркеров</div>
+
+            <div class="marker-row">
+                <div class="marker-title-box">
+                    <div class="marker-title">минимизаторы</div>
+                    <div class="marker-meta">убавляют громкость</div>
+                </div>
+                <div>
+                    <div class="marker-examples">«немного», «чуть-чуть», «не особо», «ничего страшного»</div>
+                    <div class="marker-desc">фраза становится меньше. вместе с ней уменьшается и то, что за ней стоит. язык убавляет громкость раньше, чем переживание успевает быть услышанным.</div>
+                </div>
+            </div>
+
+            <div class="marker-row">
+                <div class="marker-title-box">
+                    <div class="marker-title">обобщения</div>
+                    <div class="marker-meta">стирают детали</div>
+                </div>
+                <div>
+                    <div class="marker-examples">«всегда», «никогда», «все так делают», «у всех так»</div>
+                    <div class="marker-desc">обобщение создаёт ощущение ясности — если «всегда», можно не вспоминать конкретный случай. чем шире формулировка, тем дальше оказывается живой опыт.</div>
+                </div>
+            </div>
+
+            <div class="marker-row">
+                <div class="marker-title-box">
+                    <div class="marker-title">отрицания</div>
+                    <div class="marker-meta">создают расстояние</div>
+                </div>
+                <div>
+                    <div class="marker-examples">«мне не больно», «я не злюсь», «всё нормально»</div>
+                    <div class="marker-desc">слова говорят одно. тело продолжает сообщать другое — напряжённые плечи, задержанное дыхание, сжатая челюсть. между произнесённым и происходящим внутри остаётся заметное расстояние.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="price-box">
+            <div class="price-title">ключевые наблюдения недели</div>
+            <ul class="price-list">
+                <li>«немного устала» и «у меня нет сил» — это не одно и то же в теле.</li>
+                <li>«что-то не так» и «мне страшно» — это не одно и то же по степени контакта с собой.</li>
+                <li>язык либо приближает к тому, что реально происходит — либо уводит на привычное безопасное расстояние.</li>
+                <li>внимание идёт туда, где больше всего энергии — к самому заряженному слову во фразе.</li>
+            </ul>
+        </section>
+
+        <section class="questions-box">
+            <div class="section-label">вопросы для тихого наблюдения</div>
+            <div class="question-item">
+                <div class="question-num">01</div>
+                <div class="question-text">какая из трёх групп фраз появляется у вас чаще всего?</div>
+            </div>
+            <div class="question-item">
+                <div class="question-num">02</div>
+                <div class="question-text">есть ли ситуации, где язык стабильно уводит вас от того, что происходит — и вы замечаете это только потом?</div>
+            </div>
+            <div class="question-item">
+                <div class="question-num">03</div>
+                <div class="question-text">что меняется, если попробовать назвать переживание точнее — не «немного», не «все так», не «всё нормально», а как есть?</div>
+            </div>
+            <div class="question-item">
+                <div class="question-num">04</div>
+                <div class="question-text">когда вы говорите «всё нормально» — что именно в этот момент происходит в теле?</div>
+            </div>
+        </section>
+
+        <section class="practice-container">
+            <div class="practice-title">аудио-практика · внимание без слов</div>
+            <div class="practice-focus">на несколько минут убрать слова совсем · побыть с тем, что есть в теле · без названия, без оценки</div>
+            <p class="manifesto-sub">не менять позу. не искать слово. только заметить — как есть прямо сейчас.</p>
+            <div class="btn-row">
+                <a href="#" class="btn-primary">слушать практику</a>
+                <a href="3.язык-маркеры-kintsugi.pdf" download class="btn-outline">скачать конспект</a>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-quote">первый шаг — не изменить. первый шаг — заметить.</div>
+            <div class="footer-meta">kintsugi* · неделя 3 · виктория голдберг · рефлексия.fm</div>
+        </footer>
+
+    </div>
+</body>
+</html>
